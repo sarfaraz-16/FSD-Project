@@ -4,9 +4,14 @@ const { generateInvoiceNumber } = require('./invoiceService');
 const mongoose = require('mongoose');
 
 const getSalesOrders = async (query) => {
-  const { status, page = 1, limit = 10 } = query;
+  const { status, page = 1, limit = 10, search } = query;
   const filter = {};
   if (status) filter.status = status;
+  if (search) {
+    filter.$or = [
+      { invoiceNo: { $regex: search, $options: 'i' } }
+    ];
+  }
 
   const skip = (page - 1) * limit;
   const total = await SalesOrder.countDocuments(filter);

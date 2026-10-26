@@ -7,7 +7,15 @@ const getModel = (type) => type === 'supplier' ? Supplier : Customer;
 const getAll = async (req, res, next) => {
   try {
     const Model = getModel(req.params.type);
-    const items = await Model.find().sort({ name: 1 });
+    const filter = {};
+    if (req.query.search) {
+      filter.$or = [
+        { name: { $regex: req.query.search, $options: 'i' } },
+        { email: { $regex: req.query.search, $options: 'i' } },
+        { phone: { $regex: req.query.search, $options: 'i' } }
+      ];
+    }
+    const items = await Model.find(filter).sort({ name: 1 });
     sendSuccess(res, items, `${req.params.type}s fetched`);
   } catch (error) { next(error); }
 };

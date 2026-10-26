@@ -5,7 +5,7 @@ import Badge from '../../components/common/Badge';
 import Modal from '../../components/common/Modal';
 import ProductForm from './ProductForm';
 import StockAdjustForm from './StockAdjustForm';
-import { Plus, Edit2, Archive, PackagePlus } from 'lucide-react';
+import { Plus, Edit2, Archive, PackagePlus, Search, X } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 
 const Products = () => {
@@ -94,18 +94,29 @@ const Products = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center space-x-4 flex-1">
-          <input 
-            type="text" 
-            placeholder="Search products..." 
-            value={search}
-            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            className="w-full max-w-xs px-4 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-primary focus:border-primary"
-          />
+        <div className="flex items-center space-x-3 flex-1 flex-wrap sm:flex-nowrap">
+          <div className="relative w-full max-w-xs">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
+            <input 
+              type="text" 
+              placeholder="Search products by name or SKU..." 
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+              className="w-full pl-9 pr-8 py-2 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary bg-white"
+            />
+            {search && (
+              <button 
+                onClick={() => { setSearch(''); setPage(1); }}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                <X size={14} />
+              </button>
+            )}
+          </div>
           <select 
             value={categoryFilter}
             onChange={(e) => { setCategoryFilter(e.target.value); setPage(1); }}
-            className="px-4 py-2 rounded-xl border border-slate-200 bg-white"
+            className="px-3.5 py-2 rounded-xl border border-slate-200 bg-white text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-primary/20"
           >
             <option value="">All Categories</option>
             {categories.map(cat => <option key={cat._id} value={cat._id}>{cat.name}</option>)}
@@ -115,7 +126,7 @@ const Products = () => {
         {canEdit && (
           <button 
             onClick={() => { setSelectedProduct(null); setIsFormOpen(true); }}
-            className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary-hover transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-xl hover:bg-primary-hover transition-colors font-medium text-sm shadow-sm"
           >
             <Plus size={18} />
             <span>Add New</span>
@@ -124,10 +135,14 @@ const Products = () => {
       </div>
 
       {loading ? (
-        <div className="p-8 text-center text-slate-500">Loading...</div>
+        <div className="p-12 text-center text-slate-500">Loading products...</div>
       ) : (
         <>
-          <DataTable columns={columns} data={products} />
+          <DataTable 
+            columns={columns} 
+            data={products} 
+            emptyMessage={search ? `No products found matching "${search}"` : 'No products available'} 
+          />
           <div className="p-4 bg-white rounded-xl border border-slate-200 flex flex-wrap justify-between items-center text-sm shadow-sm">
             <p className="text-slate-500">
               Showing page <span className="font-semibold text-slate-800">{page}</span> of <span className="font-semibold text-slate-800">{totalPages || 1}</span> ({total} products)
