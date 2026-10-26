@@ -1,0 +1,26 @@
+{
+  "admin": {
+    "inventory": ["read", "write"],
+    "sales": ["read", "write"],
+    "purchases": ["read", "write"],
+    "reports": ["read", "write"],
+    "employees": ["read", "write"],
+    "users": ["read", "write"]
+  },
+  "manager": {
+    "inventory": ["read", "write"],
+    "sales": ["read", "write"],
+    "purchases": ["read", "write"],
+    "reports": ["read"],
+    "employees": ["read"],
+    "users": []
+  },
+  "staff": {
+    "inventory": ["read"],
+    "sales": ["read", "write"],
+    "purchases": [],
+    "reports": [],
+    "employees": [],
+    "users": []
+  }
+}

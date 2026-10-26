@@ -1,0 +1,80 @@
+Phase 1: Setup and authentication
+Week 1. Working login with roles and an app shell.
+
+Tasks
+Create server and client (Vite) projects, init Git, add ESLint and Prettier
+Create a MongoDB Atlas cluster, connect with Mongoose using .env
+User model: name, email, passwordHash, role
+Endpoints: POST /auth/register, POST /auth/login, GET /auth/me
+bcrypt hashing and JWT signing
+Middleware: auth, authorize(roles), errorHandler
+React: Login page, AuthContext, ProtectedRoute, sidebar and navbar layout
+Seed one admin user
+Done when: A user can log in and see a role-based empty dashboard. Deploy this basic version early.
+
+Phase 2: Inventory module
+Weeks 2-3. Full product and stock management.
+
+Tasks
+Models: Category, Product (sku, prices, stockQty, reorderLevel), StockLog
+CRUD APIs for categories and products with validation
+Product list page with search, category filter and pagination
+Add and edit product forms
+POST /products/:id/adjust for manual stock changes, each writing a StockLog
+stockService with a low-stock check
+Low-stock list and navbar badge
+Done when: Admins and managers can fully manage products and stock, and every change is logged.
+
+Phase 3: Sales and purchase modules
+Weeks 4-5. Orders that move stock automatically. The hardest phase.
+
+Tasks
+Customer and Supplier models with CRUD
+SalesOrder: validate stock, then in one transaction save order, reduce stock, write StockLogs
+PurchaseOrder: saved as ordered, then PATCH /purchases/:id/receive adds stock in a transaction
+Status flows and cancellation rules that reverse stock correctly
+Invoice number generation in invoiceService
+Order forms with dynamic item rows, order lists, detail pages
+Printable invoice page
+Done when: Real sales and purchases keep stock correct, and cancelling an order restores it.
+
+Phase 4: HR and role management
+Week 6. Employee records and proper access control.
+
+Tasks
+Employee model and CRUD APIs
+Employee list and form pages
+Link a User account to an Employee
+Admin screen to create users and assign roles
+Audit every route and page against the permission matrix
+Hide menu items per role in the UI, enforce on the server
+Done when: The admin controls staff records and access, and each role sees only what it should.
+
+Phase 5: Dashboard and reports
+Week 7. Real-time insight for decisions.
+
+Tasks
+GET /dashboard/summary: stock value, today's sales, pending orders, low-stock count
+Aggregation pipelines in reportService
+Charts with Recharts: sales trend, top products, stock by category
+Reports: sales, purchases, low stock, with date filters
+CSV export
+Automated report generation (scheduled with node-cron)
+Done when: The dashboard updates with real data and reports can be filtered and exported.
+
+Phase 6: Testing, deployment and final product
+Week 8. Complete, polished, deployed SmartERP.
+
+Tasks
+Responsive layout, loading, empty and error states
+Jest tests for services; Supertest tests for auth, roles and orders
+Security pass: helmet, rate limiting, CORS, input sanitising
+Seed script with realistic demo data
+Deploy: server on Render, client on Vercel, database on Atlas
+README, API docs, demo video, final report and presentation
+Done when: The full product is live, tested and documented, ready for final review.
+
+All six phases are in the tabs above, each with its tasks and a “Done when” check. Phase 6 is the finished product: tested, deployed and documented.
+
+Each phase depends on the one before it, so don’t start Phase 3 until Phase 2’s stock logging works. Phase 3 is the hardest part of the project, so give it your best focus time
+
