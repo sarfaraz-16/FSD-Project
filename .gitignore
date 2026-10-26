@@ -35,6 +35,17 @@ Thumbs.db
 .~lock.*#
 .~lock.*
 
+# Local Documentation, Slides, Planning & Scratch files
+*.docx
+*.odt
+*.pptx
+*.pdf
+phases
+ui ref.png
+read_docs.py
+scripts/
+SmartERP_Postman_Collection.json
+
 # Coverage & testing
 coverage/
 .nyc_output/
